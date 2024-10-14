@@ -9,8 +9,7 @@ graph TB
 
     subgraph "バックエンド"
         C[Flask]
-        D[認証]
-        G[Python]
+        D[認証機能]
     end
 
     subgraph "データベース"
@@ -23,8 +22,6 @@ graph TB
 
     A <--> B
     B <--> C
-    C <--> D
+    C --- D
     C <--> E
     C <--> F
-    G --- C
-    G --- D
