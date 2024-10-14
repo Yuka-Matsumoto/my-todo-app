@@ -1,0 +1,37 @@
+graph TB
+    subgraph "開発環境"
+        subgraph "フロントエンド"
+            A["Next.js<br>(TypeScript, TailwindCSS)"]
+        end
+
+        subgraph "バックエンド (Flask)"
+            B["アプリケーションロジック"]
+            C["認証機能"]
+        end
+
+        subgraph "データベース"
+            D[(PostgreSQL)]
+        end
+
+        subgraph "外部サービス"
+            E[Stripe API<br>（決済のみ）]
+        end
+
+        subgraph "開発ツール"
+            F[GitHub]
+            G[Docker]
+        end
+    end
+
+    A <-->|"API リクエスト/レスポンス"| B
+    A <-->|"認証リクエスト/レスポンス"| C
+    B <-->|"データの読み書き"| D
+    C <-->|"ユーザー情報の読み書き"| D
+    B <-->|"決済処理"| E
+    F -->|"ソースコード管理"| A
+    F -->|"ソースコード管理"| B
+    F -->|"ソースコード管理"| C
+    G -->|"開発環境の一貫性確保"| A
+    G -->|"開発環境の一貫性確保"| B
+    G -->|"開発環境の一貫性確保"| C
+    G -->|"開発環境の一貫性確保"| D
