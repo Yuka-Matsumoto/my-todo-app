@@ -1,0 +1,119 @@
+erDiagram
+    union_users {
+        int user_id PK
+        string email
+        string password_hash
+        datetime created_at
+        datetime updated_at
+    }
+
+    senior_users {
+        int user_id PK
+        string email
+        string password_hash
+        datetime created_at
+        datetime updated_at
+    }
+
+    union_profiles {
+        int profile_id PK
+        int user_id FK
+        string organization_name
+        string industry
+        string contact_person
+        string phone
+        text description
+        datetime created_at
+        datetime updated_at
+    }
+
+    senior_profiles {
+        int profile_id PK
+        int user_id FK
+        string name
+        date birth_date
+        string skills
+        text bio
+        datetime created_at
+        datetime updated_at
+    }
+
+    services {
+        int service_id PK
+        int provider_id FK
+        string title
+        text description
+        decimal price
+        datetime created_at
+        datetime updated_at
+    }
+
+    jobs {
+        int job_id PK
+        int employer_id FK
+        string title
+        text description
+        decimal salary
+        datetime created_at
+        datetime updated_at
+    }
+
+    applications {
+        int application_id PK
+        int job_id FK
+        int applicant_id FK
+        string status
+        datetime applied_at
+        datetime updated_at
+    }
+
+    messages {
+        int message_id PK
+        int sender_id FK
+        int receiver_id FK
+        int job_id FK
+        text content
+        datetime sent_at
+    }
+
+    payments {
+        int payment_id PK
+        int payer_id FK
+        int payee_id FK
+        int job_id FK
+        int service_id FK
+        decimal amount
+        string status
+        datetime created_at
+        datetime updated_at
+    }
+
+    scoring {
+        int score_id PK
+        int user_id FK
+        int rater_id FK
+        int job_id FK
+        int service_id FK
+        float score
+        text comment
+        datetime created_at
+    }
+
+    union_users ||--o| union_profiles : "has"
+    senior_users ||--o| senior_profiles : "has"
+    senior_users ||--o{ services : "provides"
+    union_users ||--o{ jobs : "posts"
+    senior_users ||--o{ applications : "submits"
+    union_users ||--o{ applications : "receives"
+    union_users ||--o{ messages : "sends/receives"
+    senior_users ||--o{ messages : "sends/receives"
+    union_users ||--o{ payments : "involved_in"
+    senior_users ||--o{ payments : "involved_in"
+    jobs ||--o{ applications : "has"
+    jobs ||--o{ messages : "related_to"
+    services ||--o{ payments : "related_to"
+    jobs ||--o{ payments : "related_to"
+    union_users ||--o{ scoring : "rates/rated_by"
+    senior_users ||--o{ scoring : "rates/rated_by"
+    jobs ||--o{ scoring : "related_to"
+    services ||--o{ scoring : "related_to"
